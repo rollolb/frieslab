@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Piece Fast Food</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        header {
+            background-image: url('img/onepiece.jpg');
+            background-size: cover;
+            background-color: #ff1313;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .logo {
+            width: 200px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            transition: all 0.3s ease;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        nav.minimized {
+            padding: 5px 0;
+        }
+
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        nav.minimized a {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            background-color: #ff1313;
+            color: white;
+        }
+
+        .section {
+            padding: 40px 20px;
+            text-align: center;
+            background-color: white;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            margin-top: 80px;
+        }
+
+        .menu {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .menu-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            margin: 15px;
+            padding: 20px;
+            text-align: center;
+            width: calc(50% - 40px);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .quantity-input {
+            width: 50px;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #9c1d1d;
+            color: rgb(255, 255, 255);
+            width: 100%;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 768px) {
+            footer {
+                position: relative;
+            }
+
+            .menu-item {
+                width: 100%;
+            }
+
+            nav a {
+                padding: 10px;
+                font-size: 14px;
+                flex: 1 1 50%;
+                text-align: center;
+            }
+        }
+
+        .contact-info {
+            margin: 5px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .contact-info a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .instagram-logo {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .clock-icon {
+            margin-right: 5px;
+        }
+
+        .whatsapp-logo, .tiktok-logo, .facebook-logo {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            z-index: 1000;
+            animation: float 1s ease-in-out infinite;
+        }
+
+        .whatsapp-logo {
+            bottom: 10px;
+            left: 20px;
+        }
+
+        .tiktok-logo {
+            bottom: 70px;
+            left: 20px;
+        }
+
+        .facebook-logo {
+            bottom: 130px;
+            left: 20px;
+        }
+
+        @media (max-width: 500px) {
+            .whatsapp-logo, .tiktok-logo, .facebook-logo {
+                width: 30px;
+                height: 30px;
+                left: 10px;
+            }
+
+            .facebook-logo {
+                bottom: 110px;
+            }
+
+            .tiktok-logo {
+                bottom: 60px;
+            }
+
+            .whatsapp-logo {
+                bottom: 10px;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .cart {
+            position: fixed;
+            top: 60px;
+            right: -320px;
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: 90vw;
+            max-width: 300px;
+            transition: right 0.5s ease-in-out;
+        }
+
+        @media (max-width: 500px) {
+            .cart {
+                right: -100vw;
+            }
+        }
+
+        .cart-item {
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item button {
+            background-color: #ff1313;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cart-item button:hover {
+            background-color: #cc0000;
+        }
+
+        .order-button {
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .order-button:hover {
+            background-color: #3e8e41;
+        }
+
+        .toggle-cart-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            z-index: 1001;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-cart-button:hover {
+            background-color: #3e8e41;
+        }
+
+        .add-to-cart-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .add-to-cart-button:hover {
+            background-color: #3e8e41;
+        }
+
+        .total-amount {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="img/logo.png" alt="Logo" class="logo">
+        <h1></h1>
+    </header>
+    <nav id="mainNav">
+        <a href="#" onclick="showSection('chicken-burgers')">Chicken Burgers</a>
+        <a href="#" onclick="showSection('beef-burgers')">Beef Burgers</a>
+        <a href="#" onclick="showSection('about')">About</a>
+        <a href="#" onclick="showSection('location')">Location</a>
+    </nav>
+    <section class="section" id="about">
+        <h2>About Us</h2>
+        <p>Welcome to Fries Lab – Where Flavor Meets Creativity!</p>
+        <p>Founded in 2022 by food enthusiast Ahmad Wehbe, Fries Lab was born out of a passion for bold flavors and the love of Lebanese street food. Located in the heart of Beirut, we specialize in loaded fries, juicy burgers, and mouthwatering wraps — all made with fresh, locally sourced potatoes and high-quality ingredients.</p>
+        <p>From crispy golden fries drenched in signature sauces to our unforgettable boneless chicken wraps, every item on our menu is crafted to satisfy your cravings and ignite your taste buds.</p>
+        <p>Despite the challenges faced, including surviving the 2024 conflict, Fries Lab has remained committed to delivering comfort food with a twist. Whether you’re dining in or ordering out, we promise fast service, generous portions, and unforgettable taste.</p>
+        <p>Join us, and discover why Fries Lab is one of Beirut’s favorite street food spots!</p>
+    </section>
+    <section class="section" id="chicken-burgers">
+        <h2>Chicken Burgers</h2>
+        <div class="menu">
+            <div class="menu-item">
+                <img src="img/JOYBOY.png" alt="JOYBOY Burger">
+                <h3>JOYBOY</h3>
+                <p>Breaded Chicken Dipped In Honey Mustard, Mozzarella Patty, Lettuce, Pickles, Chips & Venom Sauce</p>
+                <p><strong>Price: USD 9.00</strong></p>
+                <input type="number" id="JOYBOY-quantity" class="quantity-input" min="1" value="1">
+                <button class="add-to-cart-button" onclick="addToCart('JOYBOY')">Add to Cart</button>
+            </div>
+            <div class="menu-item">
+                <img src="img/ZOROburger.png" alt="ZORO Burger">
+                <h3>ZORO</h3>
+                <p>Breaded Chicken Dipped In BBQ, Cheddar Patty, Lettuce, Parmesan Garlic Mayo Sauce, Pickles & In-house Made Chips</p>
+                <p><strong>Price: USD 9.15</strong></p>
+                <input type="number" id="ZORO-quantity" class="quantity-input" min="1" value="1">
+                <button class="add-to-cart-button" onclick="addToCart('ZORO')">Add to Cart</button>
+            </div>
+            <div class="menu-item">
+                <img src="img/VENOMburger.png" alt="VENOM Burger">
+                <h3>VENOM</h3>
+                <p>Breaded Chicken, Jalapeño Poppers, Beef Bacon, Dill Pickles, Lettuce, Chips & Venom Sauce.</p>
+                <p><strong>Price: USD 9.50</strong></p>
+                <input type="number" id="VENOM-quantity" class="quantity-input" min="1" value="1">
+                <button class="add-to-cart-button" onclick="addToCart('VENOM')">Add to Cart</button>
+            </div>
+            <div class="menu-item">
+                <img src="img/Fries_Lab_Menu-15636-Edit_Menu_1.png" alt="HULK Burger">
+                <h3>HULK</h3>
+                <p>Breaded Chicken Breast Dipped In Buffalo, Mozzarella Patty, Iceberg Lettuce, Dill Pickles, Thousand Island Sauce.</p>
+                <p><strong>Price: USD 9.20</strong></p>
+                <input type="number" id="HULK-quantity" class="quantity-input" min="1" value="1">
+                <button class="add-to-cart-button" onclick="addToCart('HULK')">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+    <section class="section" id="beef-burgers">
+        <h2>Beef Burgers</h2>
+        <div class="menu">
+            <div class="menu-item">
+                <img src="img/darkknight.png" alt="Dark Knight Burger">
+                <h3>Dark Knight</h3>
+                <p>Charcoal Grilled Beef Patty, Cheddar Patty, Beef Bacon (HALAL), Lettuce, Dill Pickles, Grilled Onions, Secret Sauce</p>
+                <p><strong>Price: USD 9.90</strong></p>
+                <input type="number" id="Dark Knight-quantity" class="quantity-input" min="1" value="1">
+                <button class="add-to-cart-button" onclick="addToCart('Dark Knight')">Add to Cart</button>
+            </div>
+            <div class="menu-item">
+                <img src="img/double-double.png" alt="Double-Double Burger">
+                <h3>Double-Double</h3>
+                <p>Charcoal Grilled Double Beef Patty, Lettuce, Grilled Onions, Dill Pickles, Cheddar Cheese, Secret Sauce, Brioche Bun.</p>
+                <p><strong>Price: USD 9.30 (Add bacon for +USD 1.50)</strong></p>
+                <input type="number" id="Double-Double-quantity" class="quantity-input" min="1" value="1">
+                <button class="add-to-cart-button" onclick="addToCart('Double-Double')">Add to Cart</button>
+            </div>
+            <div class="menu-item">
+                <img src="img/swiss mushroom.png" alt="Swiss Mushroom Burger">
+                <h3>Swiss Mushroom</h3>
+                <p>Grilled Beef Patty, Lettuce, Swiss Cheese, Secret Sauce, Grilled Mushrooms & Onions.</p>
+                <p><strong>Price: USD 9.20</strong></p>
+                <input type="number" id="Swiss Mushroom-quantity" class="quantity-input" min="1" value="1">
+                <button class="add-to-cart-button" onclick="addToCart('Swiss Mushroom')">Add to Cart</button>
+            </div>
+            <div class="menu-item">
+                <img src="img/OG Cheeseburger.png" alt="OG Cheeseburger">
+                <h3>OG Cheeseburger</h3>
+                <p>Charcoal Grilled Beef Patty, Cheddar, Lettuce, Tomato, Pickles, Grilled Onions, Rosemary Mayo.</p>
+                <p><strong>Price: USD 8.00</strong></p>
+                <input type="number" id="OG Cheeseburger-quantity" class="quantity-input" min="1" value="1">
+                <button class="add-to-cart-button" onclick="addToCart('OG Cheeseburger')">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+    <section class="section" id="location">
+        <h2>Location</h2>
+        <p>اوتوستراد سيد هادي , قبل بيتزا هت مقابل معهد الأفاق
+Sayed Hadi Nasrallah Highway , Before Pizza Hut Facing Afak Institute</p>
+        <p>
+            <a href="https://www.google.com/maps/place/Fries+Lab/@33.8497211,35.5159259,17z/data=!3m1!4b1!4m6!3m5!1s0x151f1749bab4dc0f:0xe5db4958871b9563!8m2!3d33.8497211!4d35.5159259!16s%2Fg%2F11t6ljdf3c?entry=ttu&g_ep=EgoyMDI1MDUyMS4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+                View on Google Maps
+            </a>
+        </p>
+    </section>
+    <button class="toggle-cart-button" onclick="toggleCart()">🛒</button>
+    <div class="cart" id="cart">
+        <h3>Your Cart</h3>
+        <div id="cart-items"></div>
+        <div class="total-amount">Total: USD <span id="total-amount">0.00</span></div>
+        <button class="order-button" onclick="redirectToWhatsApp()">Order Now</button>
+    </div>
+    <footer id="contact">
+        <div class="contact-info">
+            <p>Phone: +961 71 495 055</p>
+            <p>
+                <a href="https://www.instagram.com/frieslab.lb" target="_blank">
+                    <img src="img/instagram-vector-logo-icon-socia-removebg-preview (1).png" alt="Instagram" class="instagram-logo">
+                    @frieslab.lb
+                </a>
+            </p>
+            <p><span class="clock-icon">⏱️</span>12 PM — 12 AM</p>
+        </div>
+    </footer>
+    <a href="https://wa.me/96171495055" target="_blank">
+        <img src="img/whatsapp_PNG21-removebg-preview.png" alt="WhatsApp" class="whatsapp-logo">
+    </a>
+    <a href="https://www.tiktok.com/@frieslab.lb" target="_blank">
+        <img src="img/tiktok-icon-black-removebg-preview.png" alt="TikTok" class="tiktok-logo">
+    </a>
+    <a href="https://www.facebook.com/Frieslab.lb/" target="_blank">
+        <img src="img/Untitled-removebg-preview.png" alt="Facebook" class="facebook-logo">
+    </a>
+    <script>
+        let cart = [];
+
+        const prices = {
+            'JOYBOY': 9.00,
+            'ZORO': 9.15,
+            'VENOM': 9.50,
+            'HULK': 9.20,
+            'Dark Knight': 9.90,
+            'Double-Double': 9.30,
+            'Swiss Mushroom': 9.20,
+            'OG Cheeseburger': 8.00
+        };
+
+        function addToCart(itemName) {
+            const quantityInput = document.getElementById(`${itemName}-quantity`);
+            const quantity = parseInt(quantityInput.value);
+
+            const existingItem = cart.find(item => item.name === itemName);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({ name: itemName, quantity: quantity });
+            }
+
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = '';
+            let totalAmount = 0;
+
+            cart.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                const itemTotal = prices[item.name] * item.quantity;
+                totalAmount += itemTotal;
+
+                itemElement.innerHTML = `
+                    <span>${item.name} (x${item.quantity}) - USD ${itemTotal.toFixed(2)}</span>
+                    <button onclick="removeFromCart('${item.name}')">Remove</button>
+                `;
+                cartItems.appendChild(itemElement);
+            });
+
+            document.getElementById('total-amount').textContent = totalAmount.toFixed(2);
+            console.log('Cart updated:', cart);
+        }
+
+        function removeFromCart(itemName) {
+            cart = cart.filter(item => item.name !== itemName);
+            updateCart();
+        }
+
+        function redirectToWhatsApp() {
+            const phoneNumber = '96171495055';
+            const message = encodeURIComponent(`I would like to order the following items: ${cart.map(item => `${item.name} (x${item.quantity})`).join(', ')}`);
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+            console.log('WhatsApp URL:', whatsappUrl);
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function showSection(sectionId) {
+            var sections = document.querySelectorAll('.section');
+            sections.forEach(function(section) {
+                section.style.display = 'none';
+            });
+
+            var selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.style.display = 'block';
+            }
+        }
+
+        function toggleCart() {
+            const cart = document.getElementById('cart');
+            if (cart.style.right === '20px') {
+                cart.style.right = '-320px';
+            } else {
+                cart.style.right = '20px';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('chicken-burgers');
+        });
+
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 50) {
+                nav.classList.add('minimized');
+            } else {
+                nav.classList.remove('minimized');
+            }
+        });
+
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', function() {
+            const footer = document.getElementById('contact');
+            let scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+            if (scrollTop > lastScrollTop) {
+                footer.classList.add('hidden');
+            } else {
+                footer.classList.remove('hidden');
+            }
+            lastScrollTop = scrollTop;
+        });
+    </script>
+</body>
+</html>
